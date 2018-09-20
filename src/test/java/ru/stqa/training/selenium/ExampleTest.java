@@ -21,14 +21,15 @@ public class ExampleTest {
     }
 
     @Test
-    public void ExampleTest(){
+    public void ExampleTest001() {
         driver.get("http://www.kalen-dar.ru/");
-        wait.until(titleIs("Авторы - КаленДарный сайт"));
+        wait.until(titleIs("КаленДарный сайт"));
     }
 
     @After
     public void stop() {
         driver.quit();
+        driver = null;
     }
 
 }
