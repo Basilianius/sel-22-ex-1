@@ -10,6 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+
 
 public class LoginTest {
 
@@ -33,7 +35,8 @@ public class LoginTest {
         driver.findElement(By.name("username")).sendKeys(USERNAME);
         driver.findElement(By.name("password")).sendKeys(PASSWORD);
         driver.findElement(By.name("login")).click();
-        wait.until(titleIs("My Store"));
+        By locator = new By.ByXPath("//*[@title='Logout']");
+        wait.until(visibilityOfElementLocated(locator));
     }
 
     @After
