@@ -1,5 +1,7 @@
 package ru.stqa.training.selenium;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,13 +12,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static settings.Constants.Credentials.USERNAME;
 import static settings.Constants.Credentials.PASSWORD;
+import static settings.Constants.Credentials.USERNAME;
 import static settings.Constants.Titles.ADMIN_TITLE;
 import static settings.Constants.Urls.ADMIN_URL;
 

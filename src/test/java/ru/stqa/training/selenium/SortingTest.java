@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static settings.Constants.Credentials.PASSWORD;
@@ -48,7 +47,7 @@ public class SortingTest {
         loginAdmin();
     }
 
-//    @Test
+    //    @Test
     public void SortingTest001() {
         //переходим на страницу со странами
         driver.get(COUNTRIES_PAGE);
@@ -61,7 +60,7 @@ public class SortingTest {
         checkSorting(countries);
     }
 
-//    @Test
+    //    @Test
     public void SortingTest002() throws NullPointerException {
         //переходим на страницу со странами
         driver.get(COUNTRIES_PAGE);
