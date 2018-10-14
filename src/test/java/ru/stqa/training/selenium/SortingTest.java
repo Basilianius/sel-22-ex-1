@@ -47,7 +47,7 @@ public class SortingTest {
         loginAdmin();
     }
 
-    //    @Test
+    @Test
     public void SortingTest001() {
         //переходим на страницу со странами
         driver.get(COUNTRIES_PAGE);
@@ -60,7 +60,7 @@ public class SortingTest {
         checkSorting(countries);
     }
 
-    //    @Test
+    @Test
     public void SortingTest002() throws NullPointerException {
         //переходим на страницу со странами
         driver.get(COUNTRIES_PAGE);
