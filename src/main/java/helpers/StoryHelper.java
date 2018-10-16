@@ -8,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Generator;
 
@@ -71,6 +72,10 @@ public class StoryHelper {
         inputText(driver, wait, "//*[@id='create-account']/div//td/input[@name='city']", account.getCity());
         inputText(driver, wait, "//*[@id='create-account']/div//td/input[@name='email']", account.getEmail());
         inputText(driver, wait, "//*[@id='create-account']/div//td/input[@name='phone']", account.getPhone());
+
+        LOGGER.info("Заполнение страны и индекса");
+        inputText(driver, wait, "//*[@id='create-account']/div//td/input[@name='postcode']", account.getPostcode());
+        selectText(driver, wait, "//*[@id='create-account']/div//td/select[@name='country_code']", account.getCountry());
 
         LOGGER.info("Заполнение пароля");
         inputText(driver, wait, "//*[@id='create-account']/div//td/input[@name='password']", account.getPassword());
@@ -141,6 +146,16 @@ public class StoryHelper {
         try {
             WebElement webElement = driver.findElement(By.xpath(locator));
             webElement.sendKeys(text);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    private static void selectText(WebDriver driver, WebDriverWait wait, String locator, String text) {
+        try {
+            WebElement webElement = driver.findElement(By.xpath(locator));
+            Select select = new Select(webElement);
+            select.selectByVisibleText(text);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

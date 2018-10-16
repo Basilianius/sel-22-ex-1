@@ -56,7 +56,7 @@ public class Generator {
 
     public static String generateEmail() {
         String email = "test-selenium";
-        email = email + String.valueOf(ThreadLocalRandom.current().nextInt(10, 99 + 1));
+        email = email + String.valueOf(ThreadLocalRandom.current().nextInt(99, 999 + 1));
         email = email + "@test.ru";
 
         LOGGER.info(String.format("Сгенерирован емайл - %s", email));

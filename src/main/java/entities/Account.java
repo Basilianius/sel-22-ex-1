@@ -13,7 +13,8 @@ public class Account {
     private String phone = "+1241234567";
     private String password = "password";
     private String confirmedPassword = "password";
-    private String country = "Bahamas";
+    private String country = "United States";
+    private String postcode = "12345";
 
     @Override
     public String toString() {
@@ -27,7 +28,16 @@ public class Account {
                 ", password='" + password + '\'' +
                 ", confirmedPassword='" + confirmedPassword + '\'' +
                 ", country='" + country + '\'' +
+                ", postcode='" + postcode + '\'' +
                 '}';
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
     public String getCity() {
@@ -52,7 +62,7 @@ public class Account {
         this.email = email;
     }
 
-    public Account(String firstName, String lastName, String email, String address, String city, String phone, String password, String confirmedPassword, String country) {
+    public Account(String firstName, String lastName, String email, String address, String city, String phone, String password, String confirmedPassword, String country, String postcode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -62,6 +72,7 @@ public class Account {
         this.password = password;
         this.confirmedPassword = confirmedPassword;
         this.country = country;
+        this.postcode = postcode;
     }
 
     public String getFirstName() {

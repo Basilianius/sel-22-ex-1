@@ -63,8 +63,14 @@ public class RegistrationTest {
         locator = new By.ByXPath("//div/form/table//button[@name='login']");
         assertTrue("Проверка вылогирования", isElementPresent(locator));
         //логинимся
+        StoryHelper.loginAccount(driver, wait, account);
         locator = new By.ByXPath("//*[@id='box-account']/div//a[contains(text(),'Logout')]");
         assertTrue("Проверка входа", isElementPresent(locator));
+
+        //вылогиниваемся
+        StoryHelper.logout(driver, wait);
+        locator = new By.ByXPath("//div/form/table//button[@name='login']");
+        assertTrue("Проверка вылогирования", isElementPresent(locator));
 
     }
 
