@@ -2,7 +2,7 @@ package ru.stqa.training.selenium;
 
 import comparators.Comparator;
 import entities.DuckProduct;
-import helpers.LoginHelper;
+import helpers.StoryHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -33,7 +33,7 @@ public class CheckProductTest {
         wait = new WebDriverWait(driver, 10);
 
         //логинимся
-        LoginHelper.loginUser(driver, wait);
+        StoryHelper.openMainPage(driver, wait);
     }
 
     @Test
