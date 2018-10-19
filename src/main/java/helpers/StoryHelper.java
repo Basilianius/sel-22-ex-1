@@ -3,22 +3,19 @@ package helpers;
 import entities.Account;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.Generator;
 
+import java.util.concurrent.TimeUnit;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.titleContains;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static settings.Constants.Credentials.PASSWORD;
 import static settings.Constants.Credentials.USERNAME;
-import static settings.Constants.Titles.ADMIN_TITLE;
-import static settings.Constants.Titles.CREATE_ACCOUNT_TITLE;
-import static settings.Constants.Titles.USER_TITLE;
+import static settings.Constants.Titles.*;
 import static settings.Constants.Urls.ADMIN_URL;
 import static settings.Constants.Urls.USER_URL;
 
@@ -52,6 +49,100 @@ public class StoryHelper {
 
         wait.until(titleIs(USER_TITLE));
         LOGGER.info("Вход на главную страницу - УСПЕШНО");
+    }
+
+    public static void addProductToCart(WebDriver driver, WebDriverWait wait)  throws Exception{
+        LOGGER.info("Добавление продукта в корзину");
+
+        By locator = new By.ByXPath("//*[@id='box-product']//div[@class='content']//a[@class='main-image fancybox zoomable shadow']");
+        wait.until(visibilityOfElementLocated(locator));
+
+        wait.until(titleContains(PRODUCT_TITLE));
+
+        //получаем текущее колво товаров в корзине
+        int beforeProductCount = getCountProductFromCart(driver, wait);
+
+        //выбираем размер при необходимости
+        String locatorLine = "//*[@id='box-product']//div[@class='content']//td/select[@name='options[Size]']";
+        if (driver.findElements(By.xpath(locatorLine)).size() > 0) {
+            selectText(driver, wait, locatorLine, "Small");
+        }
+
+        //вызываем добавление продукта
+        try {
+            WebElement webElement = driver.findElement(By.xpath("//*[@id='box-product']//div[@class='buy_now']//td/button[@name='add_cart_product']"));
+            webElement.click();
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        //проверяем что счетчик товаров изменился
+        for (int count = 0;; count ++) {
+            if (count >= 20)
+                throw new TimeoutException();
+            try {
+                int afterProductCount = getCountProductFromCart(driver, wait);
+                if (afterProductCount - beforeProductCount != 1) throw new NoSuchElementException("Счетчик в корзине НЕ обновился");
+                break;
+            } catch (NoSuchElementException e) { }
+            Thread.sleep(1000);
+        }
+
+        LOGGER.info("Добавление продукта в корзину - УСПЕШНО");
+    }
+
+    private static int getCountProductFromCart(WebDriver driver, WebDriverWait wait) {
+        int productsCount = 0;
+        try {
+            WebElement webElement = driver.findElement(By.xpath("//*[@id='cart']/a[@class='content']/span[@class='quantity']"));
+            productsCount = Integer.valueOf(webElement.getText());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+        return productsCount;
+    }
+
+    public static void removeProductFromCart(WebDriver driver, WebDriverWait wait) throws Exception{
+        LOGGER.info("Удаление продукта из корзины");
+        int beforeProductCount = getCountProductFromTable(driver, wait);
+
+        try {
+            WebElement webElement = driver.findElement(By.xpath("//*[@id='box-checkout-cart']/div//button[@name='remove_cart_item']"));
+            webElement.click();
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+        //проверяем что счетчик товаров в таблице изменился
+        for (int count = 0;; count ++) {
+            if (count >= 20)
+                throw new TimeoutException();
+            try {
+                int afterProductCount = getCountProductFromTable(driver, wait);
+                if (beforeProductCount - afterProductCount != 1)
+                    throw new NoSuchElementException("Таблица списка товаров в корзине НЕ обновилась");
+                break;
+            } catch (NoSuchElementException e) { }
+            Thread.sleep(1000);
+        }
+
+
+        LOGGER.info("Удаление продукта из корзины - УСПЕШНО");
+    }
+
+    private static int getCountProductFromTable(WebDriver driver, WebDriverWait wait) {
+        int productsCount = 0;
+        //проверка пустой корзины
+        if (driver.findElements(By.xpath("//*[@id='checkout-cart-wrapper']/p/a")).size()>0)
+            return productsCount;
+
+        try {
+            productsCount = driver.findElements(By.xpath("//*[@id='order_confirmation-wrapper']/table/tbody/tr/td[@class='item']/..")).size();
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+        return productsCount;
     }
 
     public static void createAccount(WebDriver driver, WebDriverWait wait, Account account) {
@@ -161,7 +252,7 @@ public class StoryHelper {
         }
     }
 
-    private boolean isElementPresent(WebDriver driver, WebDriverWait wait, By locator) {
+    private static boolean isElementPresent(WebDriver driver, WebDriverWait wait, By locator) {
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
             driver.findElement(locator);
