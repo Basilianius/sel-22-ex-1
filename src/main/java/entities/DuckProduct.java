@@ -2,6 +2,8 @@ package entities;
 
 import org.openqa.selenium.WebElement;
 
+import java.io.File;
+
 /**
  * описывает продукт Уточки
  */
@@ -14,6 +16,31 @@ public class DuckProduct {
     private String campaignPrice;
     private String campaignPriceColor;
     private String campaignPriceSize;
+
+    private int quantity;
+    private String filePath = new File("newDuck.jpg").getAbsolutePath();
+
+    public DuckProduct(String name, String regularPrice, int quantity) {
+        this.name = name;
+        this.regularPrice = regularPrice;
+        this.quantity = quantity;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public DuckProduct(WebElement link, String name, String regularPrice, String regularPriceColor, String regularPriceSize, String campaignPrice, String campaignPriceColor, String campaignPriceSize) {
         this.link = link;
@@ -114,7 +141,7 @@ public class DuckProduct {
     @Override
     public String toString() {
         return "DuckProduct{" +
-                "link=" + link + "\n" +
+                "link=" + link +
                 ", name='" + name + '\'' +
                 ", regularPrice='" + regularPrice + '\'' +
                 ", regularPriceColor='" + regularPriceColor + '\'' +
@@ -122,6 +149,8 @@ public class DuckProduct {
                 ", campaignPrice='" + campaignPrice + '\'' +
                 ", campaignPriceColor='" + campaignPriceColor + '\'' +
                 ", campaignPriceSize='" + campaignPriceSize + '\'' +
+                ", quantity=" + quantity +
+                ", filePath='" + filePath + '\'' +
                 '}';
     }
 }

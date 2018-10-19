@@ -1,6 +1,7 @@
 package helpers;
 
 import entities.Account;
+import entities.DuckProduct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -40,6 +41,100 @@ public class StoryHelper {
         LOGGER.info("Вход на страницу администратора - УСПЕШНО");
     }
 
+    public static void fillNewProduct(WebDriver driver, WebDriverWait wait, DuckProduct product) {
+        LOGGER.info("Заполнение полей нового продукта");
+        try {
+            //вкладка General
+            for (int count = 0; ; count++) {
+                if (count >= 10)
+                    throw new TimeoutException();
+                try {
+
+                    if (driver.findElements(By.xpath("//*[@id='content']/form//li[@class='active']/a[contains(text(), 'General')]")).size() < 0)
+                        throw new NoSuchElementException("Вкладка General НЕ открылась");
+                    break;
+                } catch (NoSuchElementException e) {
+                }
+                Thread.sleep(1000);
+            }
+
+            WebElement webElement = driver.findElement(By.xpath("//*[@id='tab-general']/table//label/input[@name='status' and @value='1']"));
+            webElement.click();
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-general']/table//td//input[@name='name[en]']"));
+            webElement.sendKeys(product.getName());
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-general']/table//td//input[@name='quantity']"));
+            webElement.sendKeys(String.valueOf(product.getQuantity()));
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-general']/table//td//input[@name='new_images[]']"));
+            webElement.sendKeys(product.getFilePath());
+
+            //вкладка Information
+            webElement = driver.findElement(By.xpath("//*[@id='content']/form//a[contains(text(), 'Information')]"));
+            webElement.click();
+
+            for (int count = 0; ; count++) {
+                if (count >= 10)
+                    throw new TimeoutException();
+                try {
+
+                    if (driver.findElements(By.xpath("//*[@id='content']/form//li[@class='active']/a[contains(text(), 'Information')]")).size() < 0)
+                        throw new NoSuchElementException("Вкладка Information НЕ открылась");
+                    break;
+                } catch (NoSuchElementException e) {
+                }
+                Thread.sleep(1000);
+            }
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-information']/table//td/select[@name='manufacturer_id']"));
+            Select select = new Select(webElement);
+            select.selectByVisibleText("ACME Corp.");
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-information']/table//td//input[@name='short_description[en]']"));
+            webElement.sendKeys("Very short product description");
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-information']/table//td//textarea[@name='description[en]']"));
+            webElement.sendKeys("Very big product description");
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-information']/table//td//input[@name='head_title[en]']"));
+            webElement.sendKeys("Head title");
+
+            //вкладка Information
+            webElement = driver.findElement(By.xpath("//*[@id='content']/form//a[contains(text(), 'Prices')]"));
+            webElement.click();
+
+            for (int count = 0; ; count++) {
+                if (count >= 10)
+                    throw new TimeoutException();
+                try {
+
+                    if (driver.findElements(By.xpath("//*[@id='content']/form//li[@class='active']/a[contains(text(), 'Prices')]")).size() < 0)
+                        throw new NoSuchElementException("Вкладка Prices НЕ открылась");
+                    break;
+                } catch (NoSuchElementException e) {
+                }
+                Thread.sleep(1000);
+            }
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-prices']/table//td//input[@name='purchase_price']"));
+            webElement.sendKeys(product.getRegularPrice());
+
+            webElement = driver.findElement(By.xpath("//*[@id='tab-prices']/table//td/select[@name='purchase_price_currency_code']"));
+            select = new Select(webElement);
+            select.selectByVisibleText("US Dollars");
+
+            //сохранение
+            webElement = driver.findElement(By.xpath("//*[@id='content']/form//button[@name='save']"));
+            webElement.click();
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+        LOGGER.info("Заполнение полей нового продукта - УСПЕШНО");
+    }
+
     public static void openMainPage(WebDriver driver, WebDriverWait wait) {
         LOGGER.info("Вход на главную страницу");
         driver.get(USER_URL);
@@ -51,7 +146,7 @@ public class StoryHelper {
         LOGGER.info("Вход на главную страницу - УСПЕШНО");
     }
 
-    public static void addProductToCart(WebDriver driver, WebDriverWait wait)  throws Exception{
+    public static void addProductToCart(WebDriver driver, WebDriverWait wait) throws Exception {
         LOGGER.info("Добавление продукта в корзину");
 
         By locator = new By.ByXPath("//*[@id='box-product']//div[@class='content']//a[@class='main-image fancybox zoomable shadow']");
@@ -76,14 +171,16 @@ public class StoryHelper {
             LOGGER.error(ex.getMessage());
         }
         //проверяем что счетчик товаров изменился
-        for (int count = 0;; count ++) {
+        for (int count = 0; ; count++) {
             if (count >= 20)
                 throw new TimeoutException();
             try {
                 int afterProductCount = getCountProductFromCart(driver, wait);
-                if (afterProductCount - beforeProductCount != 1) throw new NoSuchElementException("Счетчик в корзине НЕ обновился");
+                if (afterProductCount - beforeProductCount != 1)
+                    throw new NoSuchElementException("Счетчик в корзине НЕ обновился");
                 break;
-            } catch (NoSuchElementException e) { }
+            } catch (NoSuchElementException e) {
+            }
             Thread.sleep(1000);
         }
 
@@ -102,7 +199,7 @@ public class StoryHelper {
         return productsCount;
     }
 
-    public static void removeProductFromCart(WebDriver driver, WebDriverWait wait) throws Exception{
+    public static void removeProductFromCart(WebDriver driver, WebDriverWait wait) throws Exception {
         LOGGER.info("Удаление продукта из корзины");
         int beforeProductCount = getCountProductFromTable(driver, wait);
 
@@ -114,7 +211,7 @@ public class StoryHelper {
         }
 
         //проверяем что счетчик товаров в таблице изменился
-        for (int count = 0;; count ++) {
+        for (int count = 0; ; count++) {
             if (count >= 20)
                 throw new TimeoutException();
             try {
@@ -122,7 +219,8 @@ public class StoryHelper {
                 if (beforeProductCount - afterProductCount != 1)
                     throw new NoSuchElementException("Таблица списка товаров в корзине НЕ обновилась");
                 break;
-            } catch (NoSuchElementException e) { }
+            } catch (NoSuchElementException e) {
+            }
             Thread.sleep(1000);
         }
 
@@ -133,7 +231,7 @@ public class StoryHelper {
     private static int getCountProductFromTable(WebDriver driver, WebDriverWait wait) {
         int productsCount = 0;
         //проверка пустой корзины
-        if (driver.findElements(By.xpath("//*[@id='checkout-cart-wrapper']/p/a")).size()>0)
+        if (driver.findElements(By.xpath("//*[@id='checkout-cart-wrapper']/p/a")).size() > 0)
             return productsCount;
 
         try {

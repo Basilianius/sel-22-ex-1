@@ -54,6 +54,7 @@ public class Generator {
         return lastName;
     }
 
+
     public static String generateEmail() {
         String email = "test-selenium";
         email = email + String.valueOf(ThreadLocalRandom.current().nextInt(99, 999 + 1));
@@ -61,6 +62,29 @@ public class Generator {
 
         LOGGER.info(String.format("Сгенерирован емайл - %s", email));
         return email;
+    }
+
+    public static String generateProductName() {
+        String name = "new-duck";
+        name = name + String.valueOf(ThreadLocalRandom.current().nextInt(99, 999 + 1));
+        name = name + "-cool";
+
+        LOGGER.info(String.format("Сгенерировано имя продукта - %s", name));
+        return name;
+    }
+
+    public static int generateProductPrice() {
+        int price = ThreadLocalRandom.current().nextInt(11, 99 + 1);
+
+        LOGGER.info(String.format("Сгенерирована стоимость продукта - %s", price));
+        return price;
+    }
+
+    public static int generateProductCount() {
+        int count = ThreadLocalRandom.current().nextInt(10, 90 + 1);
+
+        LOGGER.info(String.format("Сгенерировано колво продукта - %s", count));
+        return count;
     }
 
 }

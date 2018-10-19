@@ -14,6 +14,9 @@ public class Constants {
 
     public final static class Titles {
         public final static String ADMIN_TITLE = "My Store";
+        public final static String ADMIN_CATALOG_TITLE = "Catalog | My Store";
+        public final static String ADMIN_ADD_NEW_PRODUCT_TITLE = "Add New Product | My Store";
+
         public final static String USER_TITLE = "Online Store | My Store";
 
         public final static String CREATE_ACCOUNT_TITLE = "Create Account | My Store";
