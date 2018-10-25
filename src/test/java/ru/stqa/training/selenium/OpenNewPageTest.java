@@ -8,22 +8,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static settings.Constants.Credentials.PASSWORD;
-import static settings.Constants.Credentials.USERNAME;
-import static settings.Constants.Titles.*;
-import static settings.Constants.Urls.ADMIN_URL;
+import static settings.Constants.Titles.ADD_NEW_COUNTRY_TITLE;
+import static settings.Constants.Titles.COUNTRIES_TITLE;
 import static settings.Constants.Urls.COUNTRIES_PAGE;
 
 

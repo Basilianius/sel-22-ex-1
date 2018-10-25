@@ -23,6 +23,7 @@ public class Constants {
 
         public final static String CREATE_ACCOUNT_TITLE = "Create Account | My Store";
         public final static String PRODUCT_TITLE = "| My Store";
+        public final static String CART_TITLE = "Checkout | My Store";
 
         public final static String COUNTRIES_TITLE = "Countries | My Store";
         public final static String COUNTRY_EDIT_TITLE = "Edit Country | My Store";

@@ -1,8 +1,6 @@
 package ru.stqa.training.selenium;
 
-import comparators.Comparator;
 import entities.Account;
-import entities.DuckProduct;
 import helpers.StoryHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +16,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Generator;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 

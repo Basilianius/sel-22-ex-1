@@ -9,22 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Generator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static settings.Constants.Credentials.PASSWORD;
-import static settings.Constants.Credentials.USERNAME;
 import static settings.Constants.Titles.ADMIN_ADD_NEW_PRODUCT_TITLE;
 import static settings.Constants.Titles.ADMIN_CATALOG_TITLE;
-import static settings.Constants.Titles.ADMIN_TITLE;
-import static settings.Constants.Urls.ADMIN_URL;
 
 
 public class AddNewProductTest {
